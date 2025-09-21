@@ -1,0 +1,423 @@
+import { useState } from "react";
+import { Button } from "/components/ui/button";
+import { Input } from "/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "/components/ui/card";
+
+export default function ECommerceWebsite() {
+  const [activeTab, setActiveTab] = useState("home");
+  const [cartItems, setCartItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const products = {
+    electronics: [
+      { id: 1, name: "Smartphone X", price: 29999, rating: 4.5 },
+      { id: 2, name: "Wireless Headphones", price: 3499, rating: 4.3 },
+      { id: 3, name: "Laptop Pro", price: 89999, rating: 4.7 },
+    ],
+    fashion: [
+      { id: 4, name: "Men's T-Shirt", price: 899, rating: 4.2 },
+      { id: 5, name: "Women's Dress", price: 1599, rating: 4.4 },
+      { id: 6, name: "Sports Shoes", price: 2499, rating: 4.6 },
+    ],
+    appliances: [
+      { id: 7, name: "Microwave Oven", price: 8999, rating: 4.1 },
+      { id: 8, name: "Vacuum Cleaner", price: 5999, rating: 4.0 },
+      { id: 9, name: "Air Conditioner", price: 34999, rating: 4.5 },
+    ],
+  };
+
+  const addToCart = (product) => {
+    setCartItems([...cartItems, product]);
+  };
+
+  const filteredProducts = Object.values(products)
+    .flat()
+    .filter(product =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Navigation Header */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center justify-between">
+          <div className="flex items-center gap-8">
+            <h1 className="text-xl font-bold text-primary">ShopEasy</h1>
+            <nav className="hidden md:flex gap-6">
+              <button onClick={() => setActiveTab("home")} className={`text-sm font-medium ${activeTab === "home" ? "text-primary" : "text-muted-foreground"}`}>
+                Home
+              </button>
+              <button onClick={() => setActiveTab("categories")} className={`text-sm font-medium ${activeTab === "categories" ? "text-primary" : "text-muted-foreground"}`}>
+                Categories
+              </button>
+              <button onClick={() => setActiveTab("about")} className={`text-sm font-medium ${activeTab === "about" ? "text-primary" : "text-muted-foreground"}`}>
+                About Us
+              </button>
+              <button onClick={() => setActiveTab("contact")} className={`text-sm font-medium ${activeTab === "contact" ? "text-primary" : "text-muted-foreground"}`}>
+                Contact
+              </button>
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full md:w-64"
+            />
+            <Button variant="outline" className="relative">
+              Cart ({cartItems.length})
+            </Button>
+            <Button variant="outline">Login</Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container py-8">
+        {/* Home Page */}
+        {activeTab === "home" && (
+          <div className="space-y-8">
+            {/* Hero Banner */}
+            <div className="relative rounded-lg overflow-hidden">
+              <img 
+                src="https://placeholder-image-service.onrender.com/image/1200x400?prompt=E-commerce%20hero%20banner%20with%20shopping%20sale%20deals%20and%20products&id=banner-1" 
+                alt="E-commerce hero banner featuring special offers and deals"
+                className="w-full h-64 md:h-96 object-cover"
+              />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div className="text-center text-white">
+                  <h2 className="text-3xl md:text-5xl font-bold mb-4">Big Sale Up to 50% Off</h2>
+                  <Button size="lg">Shop Now</Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Featured Categories */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Shop by Category</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4">
+                    <img 
+                      src="https://placeholder-image-service.onrender.com/image/300x200?prompt=Electronics%20category%20with%20smartphones%20and%20gadgets&id=cat-1" 
+                      alt="Electronics category featuring smartphones and gadgets"
+                      className="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <h3 className="font-semibold">Electronics</h3>
+                  </CardContent>
+                </Card>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4">
+                    <img 
+                      src="https://placeholder-image-service.onrender.com/image/300x200?prompt=Fashion%20category%20with%20clothing%20and%20accessories&id=cat-2" 
+                      alt="Fashion category featuring clothing and accessories"
+                      className="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <h3 className="font-semibold">Fashion</h3>
+                  </CardContent>
+                </Card>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4">
+                    <img 
+                      src="https://placeholder-image-service.onrender.com/image/300x200?prompt=Home%20appliances%20category%20with%20kitchen%20gadgets&id=cat-3" 
+                      alt="Home appliances category featuring kitchen gadgets"
+                      className="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <h3 className="font-semibold">Appliances</h3>
+                  </CardContent>
+                </Card>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4">
+                    <img 
+                      src="https://placeholder-image-service.onrender.com/image/300x200?prompt=Books%20category%20with%20various%20genres&id=cat-4" 
+                      alt="Books category featuring various genres"
+                      className="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <h3 className="font-semibold">Books</h3>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            {/* Deals of the Day */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Deals of the Day</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {products.electronics.slice(0, 3).map((product) => (
+                  <Card key={product.id}>
+                    <CardHeader>
+                      <img 
+                        src={`https://placeholder-image-service.onrender.com/image/300x200?prompt=${encodeURIComponent(product.name)}&id=prod-${product.id}`}
+                        alt={`Product image of ${product.name}`}
+                        className="w-full h-48 object-cover rounded"
+                      />
+                    </CardHeader>
+                    <CardContent>
+                      <CardTitle className="text-lg">{product.name}</CardTitle>
+                      <CardDescription>⭐ {product.rating}</CardDescription>
+                      <p className="text-primary font-bold mt-2">₹{product.price.toLocaleString()}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <Button onClick={() => addToCart(product)} className="w-full">
+                        Add to Cart
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* Categories Page */}
+        {activeTab === "categories" && (
+          <div className="space-y-8">
+            <h1 className="text-3xl font-bold mb-8">Product Categories</h1>
+            
+            {/* Electronics Category */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Electronics</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {products.electronics.map((product) => (
+                  <Card key={product.id}>
+                    <CardHeader>
+                      <img 
+                        src={`https://placeholder-image-service.onrender.com/image/300x200?prompt=${encodeURIComponent(product.name)}&id=elec-${product.id}`}
+                        alt={`Electronic product: ${product.name}`}
+                        className="w-full h-48 object-cover rounded"
+                      />
+                    </CardHeader>
+                    <CardContent>
+                      <CardTitle>{product.name}</CardTitle>
+                      <CardDescription>⭐ {product.rating}</CardDescription>
+                      <p className="text-primary font-bold mt-2">₹{product.price.toLocaleString()}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <Button onClick={() => addToCart(product)} className="w-full">
+                        Add to Cart
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </section>
+
+            {/* Fashion Category */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Fashion</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {products.fashion.map((product) => (
+                  <Card key={product.id}>
+                    <CardHeader>
+                      <img 
+                        src={`https://placeholder-image-service.onrender.com/image/300x200?prompt=${encodeURIComponent(product.name)}&id=fash-${product.id}`}
+                        alt={`Fashion product: ${product.name}`}
+                        className="w-full h-48 object-cover rounded"
+                      />
+                    </CardHeader>
+                    <CardContent>
+                      <CardTitle>{product.name}</CardTitle>
+                      <CardDescription>⭐ {product.rating}</CardDescription>
+                      <p className="text-primary font-bold mt-2">₹{product.price.toLocaleString()}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <Button onClick={() => addToCart(product)} className="w-full">
+                        Add to Cart
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* About Us Page */}
+        {activeTab === "about" && (
+          <div className="max-w-4xl mx-auto space-y-8">
+            <h1 className="text-3xl font-bold">About ShopEasy</h1>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>To provide a seamless, trustworthy, and enjoyable online shopping experience with a vast product selection and competitive prices.</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Our Vision</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>To become the most customer-centric e-commerce platform, empowering users with choice, convenience, and innovation.</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Why Choose Us?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="list-disc list-inside space-y-2">
+                  <li>Wide product selection across multiple categories</li>
+                  <li>Fast and reliable delivery services</li>
+                  <li>Secure payment options</li>
+                  <li>24/7 customer support</li>
+                  <li>Easy returns and refunds policy</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Contact Page */}
+        {activeTab === "contact" && (
+          <div className="max-w-4xl mx-auto space-y-8">
+            <h1 className="text-3xl font-bold">Contact Us</h1>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Get in Touch</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold">Email</h3>
+                    <p>support@shopeasy.com</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Phone</h3>
+                    <p>+1-800-SHOP-EASY</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Address</h3>
+                    <p>123 Commerce Street, Business City, BC 12345</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Send us a Message</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Input placeholder="Your Name" />
+                  <Input placeholder="Your Email" type="email" />
+                  <Input placeholder="Subject" />
+                  <textarea 
+                    placeholder="Your Message" 
+                    className="w-full p-2 border rounded-md min-h-32"
+                  />
+                  <Button className="w-full">Send Message</Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* FAQ Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Frequently Asked Questions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="font-semibold">What is your return policy?</h3>
+                  <p className="text-muted-foreground">We offer 30-day returns for most products in original condition.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">How long does shipping take?</h3>
+                  <p className="text-muted-foreground">Standard shipping takes 3-5 business days, express shipping available.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Do you ship internationally?</h3>
+                  <p className="text-muted-foreground">Yes, we ship to over 50 countries worldwide.</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Search Results */}
+        {searchQuery && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-6">Search Results for "{searchQuery}"</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {filteredProducts.map((product) => (
+                <Card key={product.id}>
+                  <CardHeader>
+                    <img 
+                      src={`https://placeholder-image-service.onrender.com/image/300x200?prompt=${encodeURIComponent(product.name)}&id=search-${product.id}`}
+                      alt={`Search result product: ${product.name}`}
+                      className="w-full h-48 object-cover rounded"
+                    />
+                  </CardHeader>
+                  <CardContent>
+                    <CardTitle>{product.name}</CardTitle>
+                    <CardDescription>⭐ {product.rating}</CardDescription>
+                    <p className="text-primary font-bold mt-2">₹{product.price.toLocaleString()}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button onClick={() => addToCart(product)} className="w-full">
+                      Add to Cart
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t bg-muted mt-16">
+        <div className="container py-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="font-bold mb-4">ShopEasy</h3>
+              <p className="text-muted-foreground">Your one-stop shop for all your needs.</p>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><button onClick={() => setActiveTab("home")} className="text-muted-foreground hover:text-primary">Home</button></li>
+                <li><button onClick={() => setActiveTab("categories")} className="text-muted-foreground hover:text-primary">Categories</button></li>
+                <li><button onClick={() => setActiveTab("about")} className="text-muted-foreground hover:text-primary">About Us</button></li>
+                <li><button onClick={() => setActiveTab("contact")} className="text-muted-foreground hover:text-primary">Contact</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4">Policies</h3>
+              <ul className="space-y-2">
+                <li><button className="text-muted-foreground hover:text-primary">Privacy Policy</button></li>
+                <li><button className="text-muted-foreground hover:text-primary">Terms of Service</button></li>
+                <li><button className="text-muted-foreground hover:text-primary">Returns Policy</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4">Connect</h3>
+              <div className="flex gap-4">
+                <button className="text-muted-foreground hover:text-primary">Facebook</button>
+                <button className="text-muted-foreground hover:text-primary">Instagram</button>
+                <button className="text-muted-foreground hover:text-primary">Twitter</button>
+              </div>
+            </div>
+          </div>
+          <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
+            <p>© 2024 ShopEasy. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
